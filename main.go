@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"github.com/labstack/echo/v4"
+	"fmt"
 	"net/http"
 )
 
@@ -20,7 +21,14 @@ var books = []book{
 }
 
 func getBooks(c echo.Context) error {
-	return c.JSON(http.StatusOK, books)
+	err := c.JSON(http.StatusOK, books)
+    if err != nil {
+        fmt.Println("Error occurred while sending the JSON response.")
+        return err
+    }
+
+    fmt.Println("JSON response with the list of books sent successfully.")
+    return nil
 }
 
 func bookById(c echo.Context) error {

@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7eac2874-296c-463b-83bf-1661e295681d" name="Changes" comment="Simple API set up with gin-gonic framework">
+    <list default="true" id="7eac2874-296c-463b-83bf-1661e295681d" name="Changes" comment="converted api to use the echo framework instead of gin-gonic">
+      <change afterPath="$PROJECT_DIR$/main_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
@@ -57,12 +58,21 @@
       <option name="project" value="LOCAL" />
       <updated>1694697284342</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="converted api to use the echo framework instead of gin-gonic">
+      <option name="closed" value="true" />
+      <created>1694698122782</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1694698122786</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Able to hit localhost" />
     <MESSAGE value="Simple API set up with gin-gonic framework" />
-    <option name="LAST_COMMIT_MESSAGE" value="Simple API set up with gin-gonic framework" />
+    <MESSAGE value="converted api to use the echo framework instead of gin-gonic" />
+    <option name="LAST_COMMIT_MESSAGE" value="converted api to use the echo framework instead of gin-gonic" />
   </component>
 </project>
