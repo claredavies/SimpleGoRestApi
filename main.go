@@ -3,18 +3,17 @@ package main
 import (
 	"errors"
 	"github.com/labstack/echo/v4"
-	"fmt"
 	"net/http"
 )
 
-type book struct {
+type Book struct {
 	ID       string `json:"id"`
 	Title    string `json:"title"`
 	Author   string `json:"author"`
 	Quantity int    `json:"quantity"`
 }
 
-var books = []book{
+var books = []Book{
 	{ID: "1", Title: "In Search of Lost Time", Author: "Marcel Proust", Quantity: 2},
 	{ID: "2", Title: "The Great Gatsby", Author: "F. Scott Fitzgerald", Quantity: 5},
 	{ID: "3", Title: "War and Peace", Author: "Leo Tolstoy", Quantity: 6},
@@ -23,41 +22,44 @@ var books = []book{
 func getBooks(c echo.Context) error {
 	err := c.JSON(http.StatusOK, books)
     if err != nil {
-        fmt.Println("Error occurred while sending the JSON response.")
         return err
     }
 
-    fmt.Println("JSON response with the list of books sent successfully.")
     return nil
 }
 
 func bookById(c echo.Context) error {
 	id := c.Param("id")
+	if id == "" {
+            return c.JSON(http.StatusBadRequest, echo.Map{"message": ErrMsgParamIDRequired})
+    }
+
 	book, err := getBookById(id)
+
 	if err != nil {
-		return c.JSON(http.StatusNotFound, echo.Map{"message": "Book not found."})
+		return c.JSON(http.StatusNotFound, echo.Map{"message": ErrMsgBookNotFound})
 	}
 	return c.JSON(http.StatusOK, book)
 }
 
-func getBookById(id string) (*book, error) {
+func getBookById(id string) (*Book, error) {
 	for i, b := range books {
 		if b.ID == id {
 			return &books[i], nil
 		}
 	}
-	return nil, errors.New("book not found")
+	return nil, errors.New(ErrMsgBookNotFound)
 }
 
 func returnBook(c echo.Context) error {
 	id := c.QueryParam("id")
 	if id == "" {
-		return c.JSON(http.StatusBadRequest, echo.Map{"message": "Missing id query parameter"})
+		return c.JSON(http.StatusBadRequest, echo.Map{"message": ErrMsgQueryIDRequired})
 	}
 
 	book, err := getBookById(id)
 	if err != nil {
-		return c.JSON(http.StatusNotFound, echo.Map{"message": "Book not found."})
+		return c.JSON(http.StatusNotFound, echo.Map{"message": ErrMsgBookNotFound})
 	}
 
 	book.Quantity += 1
@@ -67,16 +69,16 @@ func returnBook(c echo.Context) error {
 func checkoutBook(c echo.Context) error {
 	id := c.QueryParam("id")
 	if id == "" {
-		return c.JSON(http.StatusBadRequest, echo.Map{"message": "Missing id query parameter"})
+		return c.JSON(http.StatusBadRequest, echo.Map{"message": ErrMsgQueryIDRequired})
 	}
 
 	book, err := getBookById(id)
 	if err != nil {
-		return c.JSON(http.StatusNotFound, echo.Map{"message": "Book not found."})
+		return c.JSON(http.StatusNotFound, echo.Map{"message": ErrMsgBookNotFound})
 	}
 
 	if book.Quantity <= 0 {
-		return c.JSON(http.StatusBadRequest, echo.Map{"message": "All books out on loan"})
+		return c.JSON(http.StatusBadRequest, echo.Map{"message": ErrMsgNoBooksRemaining})
 	}
 
 	book.Quantity -= 1
@@ -84,7 +86,7 @@ func checkoutBook(c echo.Context) error {
 }
 
 func createBook(c echo.Context) error {
-	var newBook book
+	var newBook Book
 	if err := c.Bind(&newBook); err != nil {
 		return err
 	}
@@ -92,14 +94,17 @@ func createBook(c echo.Context) error {
 	return c.JSON(http.StatusCreated, newBook)
 }
 
+func SetupRoutes(e *echo.Echo) {
+    e.GET("/books", getBooks)
+    e.GET("/books/:id", bookById)
+    e.POST("/books", createBook)
+    e.PATCH("/checkout", checkoutBook)
+    e.PATCH("/return", returnBook)
+}
+
 func main() {
 	e := echo.New()
 
-	e.GET("/books", getBooks)
-	e.GET("/books/:id", bookById)
-	e.POST("/books", createBook)
-	e.PATCH("/checkout", checkoutBook)
-	e.PATCH("/return", returnBook)
-
-	e.Start("localhost:8080")
+	SetupRoutes(e)
+    e.Start("localhost:8080")
 }
