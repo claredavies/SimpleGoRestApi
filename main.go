@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"simpleGoRestApi/constants"
 )
 
 type Book struct {
@@ -31,13 +32,13 @@ func getBooks(c echo.Context) error {
 func bookById(c echo.Context) error {
 	id := c.Param("id")
 	if id == "" {
-            return c.JSON(http.StatusBadRequest, echo.Map{"message": ErrMsgParamIDRequired})
+            return c.JSON(http.StatusBadRequest, echo.Map{"message": constants.ErrMsgParamIDRequired})
     }
 
 	book, err := getBookById(id)
 
 	if err != nil {
-		return c.JSON(http.StatusNotFound, echo.Map{"message": ErrMsgBookNotFound})
+		return c.JSON(http.StatusNotFound, echo.Map{"message": constants.ErrMsgBookNotFound})
 	}
 	return c.JSON(http.StatusOK, book)
 }
@@ -48,18 +49,18 @@ func getBookById(id string) (*Book, error) {
 			return &books[i], nil
 		}
 	}
-	return nil, errors.New(ErrMsgBookNotFound)
+	return nil, errors.New(constants.ErrMsgBookNotFound)
 }
 
 func returnBook(c echo.Context) error {
 	id := c.QueryParam("id")
 	if id == "" {
-		return c.JSON(http.StatusBadRequest, echo.Map{"message": ErrMsgQueryIDRequired})
+		return c.JSON(http.StatusBadRequest, echo.Map{"message": constants.ErrMsgQueryIDRequired})
 	}
 
 	book, err := getBookById(id)
 	if err != nil {
-		return c.JSON(http.StatusNotFound, echo.Map{"message": ErrMsgBookNotFound})
+		return c.JSON(http.StatusNotFound, echo.Map{"message": constants.ErrMsgBookNotFound})
 	}
 
 	book.Quantity += 1
@@ -69,16 +70,16 @@ func returnBook(c echo.Context) error {
 func checkoutBook(c echo.Context) error {
 	id := c.QueryParam("id")
 	if id == "" {
-		return c.JSON(http.StatusBadRequest, echo.Map{"message": ErrMsgQueryIDRequired})
+		return c.JSON(http.StatusBadRequest, echo.Map{"message": constants.ErrMsgQueryIDRequired})
 	}
 
 	book, err := getBookById(id)
 	if err != nil {
-		return c.JSON(http.StatusNotFound, echo.Map{"message": ErrMsgBookNotFound})
+		return c.JSON(http.StatusNotFound, echo.Map{"message": constants.ErrMsgBookNotFound})
 	}
 
 	if book.Quantity <= 0 {
-		return c.JSON(http.StatusBadRequest, echo.Map{"message": ErrMsgNoBooksRemaining})
+		return c.JSON(http.StatusBadRequest, echo.Map{"message": constants.ErrMsgNoBooksRemaining})
 	}
 
 	book.Quantity -= 1

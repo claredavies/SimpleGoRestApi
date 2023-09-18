@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"net/http/httptest"
 	"testing"
-
+    "fmt"
+    "bytes"
 	"github.com/labstack/echo/v4"
 )
 
@@ -13,6 +14,33 @@ func getMockRequestResponseContext(method, path string) (*echo.Echo, *httptest.R
     SetupRoutes(e)
 
     request := httptest.NewRequest(method, path, nil)
+    response := httptest.NewRecorder()
+    c := e.NewContext(request, response)
+
+    return e, response, c
+}
+
+func getMockRequestResponseContextWithQuery(method, path, queryKey, queryValue string) (*echo.Echo, *httptest.ResponseRecorder, echo.Context) {
+    e := echo.New()
+    SetupRoutes(e)
+
+    request := httptest.NewRequest(method, path, nil)
+    request.URL.RawQuery = fmt.Sprintf("%s=%s", queryKey, queryValue) // set the query parameter
+
+    response := httptest.NewRecorder()
+    c := e.NewContext(request, response)
+
+    return e, response, c
+}
+
+func getMockRequestResponseContextWithRequestBody(method, path string, requestBody []byte) (*echo.Echo, *httptest.ResponseRecorder, echo.Context) {
+    e := echo.New()
+    SetupRoutes(e)
+
+    // Create a request with the specified method, path, and request body
+    request := httptest.NewRequest(method, path, bytes.NewReader(requestBody))
+    request.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON) // Set the content type to JSON
+
     response := httptest.NewRecorder()
     c := e.NewContext(request, response)
 
