@@ -170,28 +170,27 @@ func TestCreateBook_HappyPath(t *testing.T) {
     }
 }
 
-//there is an error where is letting create with anything!!!!
-// func TestCreateBook_InvalidJSON(t *testing.T) {
-//     fmt.Println("--------TestCreateBook_InvalidJSON-----------")
-//
-//     // Create an invalid JSON object (e.g., missing required fields)
-//     invalidJSON := []byte(`{
-//         "author": "Author Name"
-//     }`)
-//
-//     // Perform a POST request with the invalid JSON
-//     _, response, c := getMockRequestResponseContextWithRequestBody(
-//         http.MethodPost, "/books", invalidJSON)
-//
-//     if assert.NoError(t, createBook(c)) {
-//         // Check that the response status code is as expected
-//         assert.Equal(t, http.StatusBadRequest, response.Code)
-//
-//         // Optionally, you can validate the response body to ensure it contains
-//         // an error message indicating that the JSON is invalid.
-//         responseError := getMockResponseError(t, response)
-//         assert.Contains(t, responseError["message"], ErrInvalidJSON)
-//     }
-// }
+func TestCreateBook_InvalidJSON(t *testing.T) {
+    fmt.Println("--------TestCreateBook_InvalidJSON-----------")
+
+    // Create an invalid JSON object (e.g., missing required fields)
+    invalidJSON := []byte(`{
+        "author": "Author Name"
+    }`)
+
+    // Perform a POST request with the invalid JSON
+    _, response, c := getMockRequestResponseContextWithRequestBody(
+        http.MethodPost, "/books", invalidJSON)
+
+    if assert.NoError(t, createBook(c)) {
+        // Check that the response status code is as expected
+        assert.Equal(t, http.StatusBadRequest, response.Code)
+
+        // Optionally, you can validate the response body to ensure it contains
+        // an error message indicating that the JSON is invalid.
+        responseError := getMockResponseError(t, response)
+        assert.Contains(t, responseError["message"], constants.ErrInvalidJSON)
+    }
+}
 
 

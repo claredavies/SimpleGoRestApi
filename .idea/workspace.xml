@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7eac2874-296c-463b-83bf-1661e295681d" name="Changes" comment="Added in helper test file">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+    <list default="true" id="7eac2874-296c-463b-83bf-1661e295681d" name="Changes" comment="Added in constants for error">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/main_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_helper.go" beforeDir="false" afterPath="$PROJECT_DIR$/test_helper.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +89,23 @@
       <option name="project" value="LOCAL" />
       <updated>1694788995197</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added in constants for error message and added in tests for checkout books">
+      <option name="closed" value="true" />
+      <created>1695032468523</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1695032468524</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added in constants for error">
+      <option name="closed" value="true" />
+      <created>1695032565069</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1695032565069</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -100,6 +113,8 @@
     <MESSAGE value="Simple API set up with gin-gonic framework" />
     <MESSAGE value="converted api to use the echo framework instead of gin-gonic" />
     <MESSAGE value="Added in helper test file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added in helper test file" />
+    <MESSAGE value="Added in constants for error message and added in tests for checkout books" />
+    <MESSAGE value="Added in constants for error" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added in constants for error" />
   </component>
 </project>

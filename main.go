@@ -91,8 +91,39 @@ func createBook(c echo.Context) error {
 	if err := c.Bind(&newBook); err != nil {
 		return err
 	}
+
+	if errValidBook := validateBook(newBook); errValidBook != nil {
+    	return c.JSON(http.StatusBadRequest, echo.Map{"message": constants.ErrInvalidJSON})
+    }
+
 	books = append(books, newBook)
 	return c.JSON(http.StatusCreated, newBook)
+}
+
+func validateBook(book Book) error {
+    // Check if the Title is empty
+    if book.Title == "" {
+        return errors.New("Title cannot be empty")
+    }
+
+    // Check if the Author is empty
+    if book.ID == "" {
+        return errors.New("ID cannot be empty")
+    }
+
+    if book.Author == "" {
+            return errors.New("Author cannot be empty")
+        }
+
+    if book.Title == "" {
+            return errors.New("Title cannot be empty")
+        }
+
+    if book.Quantity <= 0 {
+            return errors.New("Quantity must be greater than zero")
+        }
+
+    return nil // Book is valid
 }
 
 func SetupRoutes(e *echo.Echo) {
